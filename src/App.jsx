@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import "./style.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [fetchData, setFetchData] = useState([]);
+  const randomId = Math.floor(Math.random() * 35);
+
+  // Question:How to get image of a pokemon?
+  const endpointURL = `https://pokeapi.co/api/v2/pokemon/results[${randomId}]`;
+
+  console.log(endpointURL);
+  fetch(endpointURL)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1 className="title">Guess The Pokemon</h1>
+      <div className="container">
+        <div className="header">
+          <p className="description">Guess their name!</p>
+          <p className="score">
+            Score:<span className="score-number">100</span>Pts
+          </p>
+        </div>
+
+        <div className="pokemon-img">image here</div>
+        
+        <div className="input-area">
+        <input className="input" type="text" />
+        <button className="btn" type="submit">Submit</button>
+        </div>
+        
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
