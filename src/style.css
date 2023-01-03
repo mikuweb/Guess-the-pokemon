@@ -81,3 +81,7 @@ margin-bottom: 20px;
   color: #fff;
   background-color: #006cbf;
 }
+
+.btn :hover{
+  cursor: pointer;
+}
