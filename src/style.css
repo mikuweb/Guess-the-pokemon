@@ -56,23 +56,25 @@ body {
   height: 200px;
 }
 
-.input-area{
-  /* text-align: center; Question: How to center it? */ 
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 600px;
-margin: 20px auto;
+.pokemon-img img {
+  width: 250px;
 }
 
-.input{
-  width: 200px;
+.input {
+  /* text-align: center; Question: How to center it? */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  height: 50px;
+  margin: 20px auto;
   border: #006cbf;
-border-radius: 10px;
-margin-bottom: 20px;  
+  background-color: #fff;
+  border-radius: 10px;
 }
 
-.btn{
+/* 
+.btn {
   width: 200px;
   height: 40px;
   border-radius: 10px;
@@ -82,6 +84,7 @@ margin-bottom: 20px;
   background-color: #006cbf;
 }
 
-.btn :hover{
+.btn:hover {
   cursor: pointer;
-}
+  opacity: 0.8;
+} */
