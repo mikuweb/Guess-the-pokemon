@@ -11,9 +11,7 @@ function App() {
 
   const [score, setScore] = useState(0);
 
-  const [currentState, setCurrentState] = useState([
-    { guessed: false, key: "" },
-  ]);
+  const [states, setStates] = useState([]);
 
   const fetchPokemon = () => {
     const randomId = Math.floor(Math.random() * 100);
@@ -28,6 +26,7 @@ function App() {
         const pokemonName = data.name;
         setPokemonImage(pokemonImage);
         setPokemonName(pokemonName);
+        setStates(deriveInitialGameState(pokemonName));
       });
   };
 
@@ -43,6 +42,7 @@ function App() {
       const positions = checkName(e.key, pokemonName);
       updateScore(positions);
       displayCorrectLetters(positions, e.key);
+      // setInitialState(initialState.map(i => {i.key == e.key ? i.guessed:true : i }  ));
     };
 
     window.addEventListener("keydown", handleKeydown);
@@ -56,8 +56,8 @@ function App() {
   }, [pokemonName]);
 
   const checkName = (key, pokemonName) => {
-    //1.Put "index of all positions of the key you typed in the pokemonName"
-    //  in positions-array
+    // Put "index of all positions of the key you typed in the pokemonName"
+    // in positions-array
     const positions = [];
     let position = pokemonName.indexOf(key);
     console.log(`Pokemon name: ${pokemonName}, Pressed key: ${key}`);
@@ -78,27 +78,64 @@ function App() {
   };
 
   const displayCorrectLetters = (positions, key) => {
-    //2.Display the correctly typed letters
-    positions.length > 0
-      ? setCurrentState((preState) => [
-          ...preState,
-          { guessed: true, key: key },
-        ])
-      : setCurrentState((preState) => [
-          ...preState,
-          {
-            guessed: false,
-            key: "_",
-          },
-        ]);
+    //Display the correctly typed letters
+    // We have
+    // positions === [1,5]  or [] or [6]
+    // key === 's'
+    // state === [
+    //   { guessed: false, key: "a" },
+    //   { guessed: false, key: "b" },
+    //   { guessed: false, key: "u" },
+    //   { guessed: false, key: "r" },
+    //   { guessed: false, key: "i" },
+    // ]
+    // if  positions == [1] and key == b then we want to have
+    // state === [
+    //   { guessed: false, key: "a" },
+    //   { guessed: true, key: "b" },
+    //   { guessed: false, key: "u" },
+    //   { guessed: false, key: "r" },
+    //   { guessed: false, key: "i" },
+    // ]
+    // *if states was an object like so: {} then we would use const copyOfStates = {...states}
+    const copyOfState = [...states]; // This creates a copy of the state array
+    if (positions.length > 0) { // this check is optional. if positions was empty like so [], then forEach would simply do nothing
+      positions.forEach((p) => {
+        copyOfState[p].guessed = true;
+      });
+    }
+    setStates(copyOfState);
   };
 
-  // const currentState = [
+  // This function takes a name like "Aburi"
+  // and creates an array like this: *[
   //   { guessed: false, key: "a" },
-  //   { guessed: true, key: "b" },
+  //   { guessed: false, key: "b" },
+  //   { guessed: false, key: "u" },
   //   { guessed: false, key: "r" },
   //   { guessed: false, key: "i" },
   // ];
+
+  const deriveInitialGameState = (pokeName) => {
+    let ar = pokeName.split(""); // turns "aburi" into ['a', 'b', 'u', 'r', 'i']
+    const initialGameState = ar.map((letter) => {
+      // turns ['a', 'b', 'u', 'r', 'i'] into *
+      return {
+        guessed: false,
+        key: letter,
+      };
+    });
+    console.log(initialGameState);
+    return initialGameState;
+  };
+
+  // Next steps:  We need to save this somehow in our component,
+  // so that we can use it to render the fields
+  // and so that we can update it when a guess has been made.
+  // We only need to call this function _once_ when we know the pokemon name.
+  // 1) Think about where to store this information.
+  // 2) Think about how to update this information when a user types a key.
+  // 3) Take this fancy array* and use it in NameDisplay to display __ur_ or whatever the current state is.
 
   return (
     <div>
@@ -116,7 +153,7 @@ function App() {
         </div>
 
         <div className="input">
-          <NameDisplay currentState={currentState} />
+          <NameDisplay states={states} />
         </div>
       </div>
     </div>
@@ -124,3 +161,7 @@ function App() {
 }
 
 export default App;
+
+// const fn = () => ({guessed: false, key: 'a'})
+// const fn = () => {return {guessed: false, key: 'a'}}
+// const fn = () => {({guessed: false, key: 'a'})} // this returns nothing
