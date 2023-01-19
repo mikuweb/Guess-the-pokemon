@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NameDisplay } from "./components/NameDisplay";
+import { NextPokemonBtn } from "./components/NextPokemonBtn";
 import "./style.css";
 
 function App() {
@@ -7,7 +8,7 @@ function App() {
 
   const [pokemonName, setPokemonName] = useState("");
 
-  const [typed, setTyped] = useState("");
+  const [blink, setBlink] = useState(false);
 
   const [score, setScore] = useState(0);
 
@@ -39,10 +40,15 @@ function App() {
   useEffect(() => {
     const handleKeydown = (e) => {
       console.log(`You typed :${e.key}`);
+
+      setBlink(true);
+      setTimeout(() => {
+        setBlink(false);
+      }, 200);
+
       const positions = checkName(e.key, pokemonName);
       updateScore(positions);
       displayCorrectLetters(positions, e.key);
-      // setInitialState(initialState.map(i => {i.key == e.key ? i.guessed:true : i }  ));
     };
 
     window.addEventListener("keydown", handleKeydown);
@@ -99,7 +105,8 @@ function App() {
     // ]
     // *if states was an object like so: {} then we would use const copyOfStates = {...states}
     const copyOfState = [...states]; // This creates a copy of the state array
-    if (positions.length > 0) { // this check is optional. if positions was empty like so [], then forEach would simply do nothing
+    if (positions.length > 0) {
+      // this check is optional. if positions was empty like so [], then forEach would simply do nothing
       positions.forEach((p) => {
         copyOfState[p].guessed = true;
       });
@@ -116,6 +123,14 @@ function App() {
   //   { guessed: false, key: "i" },
   // ];
 
+  // Next steps:  We need to save this somehow in our component,
+  // so that we can use it to render the fields
+  // and so that we can update it when a guess has been made.
+  // We only need to call this function _once_ when we know the pokemon name.
+  // 1) Think about where to store this information.
+  // 2) Think about how to update this information when a user types a key.
+  // 3) Take this fancy array* and use it in NameDisplay to display __ur_ or whatever the current state is.
+
   const deriveInitialGameState = (pokeName) => {
     let ar = pokeName.split(""); // turns "aburi" into ['a', 'b', 'u', 'r', 'i']
     const initialGameState = ar.map((letter) => {
@@ -129,13 +144,10 @@ function App() {
     return initialGameState;
   };
 
-  // Next steps:  We need to save this somehow in our component,
-  // so that we can use it to render the fields
-  // and so that we can update it when a guess has been made.
-  // We only need to call this function _once_ when we know the pokemon name.
-  // 1) Think about where to store this information.
-  // 2) Think about how to update this information when a user types a key.
-  // 3) Take this fancy array* and use it in NameDisplay to display __ur_ or whatever the current state is.
+  const nextPokemon = () => {
+    console.log("NEXT POKE");
+    fetchPokemon;
+  };
 
   return (
     <div>
@@ -152,9 +164,10 @@ function App() {
           <img src={pokemonImage} />
         </div>
 
-        <div className="input">
+        <div className={`input ${blink ? "blink" : ""}`}>
           <NameDisplay states={states} />
         </div>
+        <NextPokemonBtn nextPokemon={nextPokemon} />
       </div>
     </div>
   );

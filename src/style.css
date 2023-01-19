@@ -60,6 +60,16 @@ body {
   width: 250px;
 }
 
+/* @keyframes xxx {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+} */
+
 .input {
   padding: 3px;
   display: flex;
@@ -68,12 +78,33 @@ body {
   width: 250px;
   height: 50px;
   margin: 20px auto;
-  border: #006cbf;
+  border: 2px solid #5db9ff;
   background-color: #fff;
   border-radius: 10px;
+}
+
+.blink {
+  border: 3px solid #fbd743;
 }
 
 .input-text {
   margin-top: 5px;
   font-size: 30px;
+}
+
+.btn {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 18px;
+  border: none;
+  color: #fff;
+  background-color: #006cbf;
+}
+
+.btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
