@@ -147,6 +147,8 @@ function App() {
     fetchPokemon();
   };
 
+  const allLettersGuessed = states.every((state) => state.guessed);
+
   return (
     <div>
       <h1 className="title">Guess The Pokemon</h1>
@@ -165,9 +167,11 @@ function App() {
         <div className={`input ${blink ? "blink" : ""}`}>
           <NameDisplay states={states} />
         </div>
-        <button className="btn" onClick={nextPokemon}>
-          Next Pokemon!
-        </button>
+        {allLettersGuessed && (
+          <button className="btn" onClick={nextPokemon}>
+            Next Pokemon!
+          </button>
+        )}
       </div>
     </div>
   );

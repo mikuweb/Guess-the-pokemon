@@ -1,7 +1,7 @@
 export const NameDisplay = ({ states }) => {
   console.log(states);
   return (
-    <div className="input-text">
+    <div className="input-text">  
       {states.map((s) => {
         return s.guessed ? <span>{s.key}</span> : <span>_</span>;
       })}
