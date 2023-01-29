@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { NameDisplay } from "./components/NameDisplay";
-import { NextPokemonBtn } from "./components/NextPokemonBtn";
 import "./style.css";
 
 function App() {
@@ -145,8 +144,7 @@ function App() {
   };
 
   const nextPokemon = () => {
-    console.log("NEXT POKE");
-    fetchPokemon;
+    fetchPokemon();
   };
 
   return (
@@ -167,7 +165,9 @@ function App() {
         <div className={`input ${blink ? "blink" : ""}`}>
           <NameDisplay states={states} />
         </div>
-        <NextPokemonBtn nextPokemon={nextPokemon} />
+        <button className="btn" onClick={nextPokemon}>
+          Next Pokemon!
+        </button>
       </div>
     </div>
   );
