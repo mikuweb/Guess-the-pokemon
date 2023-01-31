@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 import { NameDisplay } from "./components/NameDisplay";
 import "./style.css";
 
@@ -151,8 +152,9 @@ function App() {
 
   return (
     <div>
-      <h1 className="title">Guess The Pokemon</h1>
+      <h1 className="title">Guess The Pokémon</h1>
       <div className="container">
+        {allLettersGuessed && <Confetti />}
         <div className="header">
           <p className="description">Guess their name!</p>
           <p className="score">
@@ -169,7 +171,7 @@ function App() {
         </div>
         {allLettersGuessed && (
           <button className="btn" onClick={nextPokemon}>
-            Next Pokemon!
+            Next Pokémon!
           </button>
         )}
       </div>
